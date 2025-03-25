@@ -18,3 +18,11 @@ export async function buscarSuperheroesPorAtributo(atributo, valor) {
 export async function obtenerSuperheroesMayoresDe30() {
     return await SuperHeroRepository.obtenerMayoresDe30();
 }
+
+export async function agregarNuevoSuperHeroe() {
+    return await SuperHeroRepository.agregarNuevoSuperHeroeEnzo();
+}
+
+export async function modificarSuperHeroeporEdad(id, edad) {
+    return await SuperHeroRepository.modificarSuperHeroeporEdad(id, edad);
+}

@@ -5,7 +5,9 @@ import {
     obtenerSuperheroePorId,
     obtenerTodosLosSuperheroes,
     buscarSuperheroesPorAtributo,
-    obtenerSuperheroesMayoresDe30} from '../services/superheroesService.mjs';
+    obtenerSuperheroesMayoresDe30,
+    agregarNuevoSuperHeroe, modificarSuperHeroeporEdad
+} from '../services/superheroesService.mjs';
 
 import {
     renderizarSuperheroe,
@@ -70,6 +72,40 @@ export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
     } catch (error) {
         res.status(500).send(
             { mensaje: 'Error al obtener superhéroes mayores de 30 años',
+            error: error.message });
+    }
+}
+
+export async function agregarSuperHeroesController(req, res) {
+    try {
+        const superheroeCreado = await agregarNuevoSuperHeroe();
+        if (superheroeCreado.length === 0) {
+            return res.status(404).send(
+                { mensaje: 'No se creo el Super Heroe' });
+        }
+        const superheroesFormateados = renderizarListaSuperheroes(superheroeCreado);
+        res.status(200).json(superheroesFormateados);
+    } catch (error) {
+        res.status(500).send(
+            { mensaje: 'Error al crear Super Heroe',
+            error: error.message });
+    }
+}
+
+export async function modificarSuperHeroesporIdController(req, res) {
+    try {
+        const {id} = req.params;
+        const superheroe = await modificarSuperHeroeporEdad(id);
+        console.log('Actualizado:', superheroe);
+        if (superheroe.length === 0) {
+            return res.status(404).send(
+                { mensaje: 'No se encontro el SuperHeroes con esa edad' });
+        }
+        const superheroesFormateados = renderizarListaSuperheroes(superheroe);
+        res.status(200).json(superheroesFormateados);
+    } catch (error) {
+        res.status(500).send(
+            { mensaje: 'Error al modificar el Super Heroe',
             error: error.message });
     }
 }
